@@ -1,0 +1,18 @@
+{
+    "id": 23,
+    "description": "Short game",
+    "token": "731a0ded-eee8-4604-8a87-5594b6603b34",
+    "playerToken1": "30129606-af60-4770-bc7e-0da4b9f6b460",
+    "playerToken2": "a7d99716-7969-44ff-8f8e-a8b536c90a9b",
+    "board": [
+        {"01": "Geen", "02": "Geen", "03": "Geen", "04": "Geen", "05": "Geen", "06": "Geen", "07": "Geen", "08": "Geen"},
+        "Geen, Geen, Geen, Geen, Geen, Geen, Geen, Geen",
+        "Geen, Geen, Geen, Geen, Geen, Geen, Geen, Geen",
+        "Geen, Geen, Geen, Wit, Zwart, Geen, Geen, Geen",
+        "Geen, Geen, Geen, Zwart, Wit, Geen, Geen, Geen",
+        "Geen, Geen, Geen, Geen, Geen, Geen, Geen, Geen",
+        "Geen, Geen, Geen, Geen, Geen, Geen, Geen, Geen",
+        "Geen, Geen, Geen, Geen, Geen, Geen, Geen, Geen"
+    ],
+    "currentPlayer": 2
+}

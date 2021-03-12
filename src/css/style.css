@@ -1,0 +1,126 @@
+.full-width {
+    width: 100%;
+}
+.inline-display {
+    display: inline;
+    vertical-align: top;
+}
+.align-right {
+    text-align: right;
+}
+
+.custom-alert {
+    background-color: #D0D9F2;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.white {
+    color: #F2F2F2;
+}
+
+.button {
+	display: inline-block;
+	border-radius: 5px;
+	padding: 7px 12px;
+	border: 1px solid #D0D9F2;
+	background-image: linear-gradient(#EEE, #DDD);
+	font: 700 13px/18px Helvetica, arial;
+}
+
+.cbutton-primary {
+	color: #F2F2F2;
+	background: #2135A6;
+}
+
+.cbutton-danger {
+    color: #F2F2F2;
+	background: #F24B4B;
+}
+/* Accept button animation */
+.accept-button {
+    animation-name: bibber;
+        animation-delay: 2s;
+        animation-duration: 2s;
+        animation-iteration-count: infinite;
+        animation-timing-function: linear;
+}
+@keyframes bibber {
+    0% {margin-right: 5px;}
+    3% {margin-left: 5px;}
+    5% {margin-right: 0px;}
+}
+.fade-out {
+    transform: translatey(-100%);
+    transition: transform ease 1s;
+}
+
+/* Fade in animation */
+.fade-in {
+    animation: fadeIn ease 2s;
+    -webkit-animation: fadeIn ease 2s;
+    -moz-animation: fadeIn ease 2s;
+    -o-animation: fadeIn ease 2s;
+    -ms-animation: fadeIn ease 2s;
+  }
+
+  @keyframes fadeIn{
+    0% {
+      opacity:0;
+    }
+    100% {
+      opacity:1;
+    }
+  }
+  
+  @-moz-keyframes fadeIn {
+    0% {
+      opacity:0;
+    }
+    100% {
+      opacity:1;
+    }
+  }
+  
+  @-webkit-keyframes fadeIn {
+    0% {
+      opacity:0;
+    }
+    100% {
+      opacity:1;
+    }
+  }
+  
+  @-o-keyframes fadeIn {
+    0% {
+      opacity:0;
+    }
+    100% {
+      opacity:1;
+    }
+  }
+  
+  @-ms-keyframes fadeIn {
+    0% {
+      opacity:0;
+    }
+    100% {
+      opacity:1;
+    }
+  }
+
+  /* Hide feedback widget if smaller than < 600 (Small devices (portrait tablets and large phones) */
+  @media only screen and (max-width: 600px) {
+    .feedback-icon {
+      display: none;
+    }
+    .button-row .button {
+        width: 20%;
+        text-align: left;
+        display: block;
+        font-size: 8px;
+    }
+    #feedback-widget {
+      font-size: 8px;
+    }
+  }

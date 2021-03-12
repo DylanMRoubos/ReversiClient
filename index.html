@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Reversi</title>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="./src/css/style.css">
+    <link rel="stylesheet" href="./dist/css/style.min.css">
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+        integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
+        integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+    <!-- link afkomstig van https://cdnjs.com/libraries/jquery/ -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.js"></script>
+    <script src="js/feedbackWidget.js"></script>
+    <script src="js/Game.js"></script>
+    <script src="js/Game.Reversi.js"></script>
+    <script src="js/Game.Model.js"></script>
+    <script src="js/Game.Data.js"></script>
+    <script src="js/Game.Api.js"></script>
+    <script src="./dist/js/templates.js"></script>
+    <script src="./dist/js/vendor.js"></script>
+    <script src="./dist/js/templates.js"></script>
+
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+        integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+        crossorigin="anonymous"></script>
+
+    <!-- Font Awesomeness -->
+    <script src="https://kit.fontawesome.com/bcf21f1304.js" crossorigin="anonymous"></script>
+</head>
+
+<body>
+
+    <section id="feedback-widget" class="custom-alert fade-in" role="alert">
+        <i class="full-width align-right far fa-window-close fa-2x gray"></i>
+        <div class="full-width">
+            <i class="inline-display far fa-check fa-3x gray feedback-icon"></i>
+            <strong>
+                <p class="inline-display alert-text gray">Mike wil deelnemen aan jouw spel. Geef akkoord</p>
+            </strong>
+        </div>
+        <div class="full-width align-right button-row">
+            <button class="align-right button cbutton-primary accept-button" type="button">Akkoord</button>
+            <button class="align-right button cbutton-danger" type="button">Weigeren</button>
+        </div>
+    </section>
+
+    <div id="board">
+    </div>
+
+    <script>
+        function toggleFeedback(elementId) {
+            var x = document.getElementById(elementId);
+            if (x.style.display === "none") {
+                x.style.display = "block";
+            } else {
+                x.style.display = "none";
+            }
+        }
+        function afterInit() {
+            console.log('Game init voltooid')
+        }
+
+        $(function () {
+            Game.init(afterInit);
+        })
+
+    </script>
+
+</body>
+
+</html>

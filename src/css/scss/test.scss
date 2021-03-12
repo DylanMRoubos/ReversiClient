@@ -1,0 +1,10 @@
+$font-stack:    Helvetica, sans-serif;
+$primary-color: Green;
+
+body {
+  font: 100% $font-stack;
+  color: $primary-color !important;
+}
+div {
+  display: flex;
+} 
