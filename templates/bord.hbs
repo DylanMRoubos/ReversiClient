@@ -1,0 +1,7 @@
+<div id="board">
+    {{#each board}}
+    {{#each this}}
+    <div class="cell" onclick="Game.Data.showFiche(this)">{{>fiche this}}</div>
+    {{/each}}
+    {{/each}}
+</div>

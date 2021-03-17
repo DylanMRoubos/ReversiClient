@@ -2,6 +2,7 @@ module.exports = {
     localServerProjectPath : '/Users/dylanroubos/Projects/ReversiMvcApp/ReversiMvcApp/wwwroot',
     files: {
         js: [
+            'js/Game.js',
             'js/**/*.js',
             'js/*.js'
         ],
@@ -17,9 +18,13 @@ module.exports = {
             'vendor/*.js'
         ],
         templates: [
-            'templates/*.hbs'
+            'templates/**/[^_]*.hbs'
         ],
-        
+        partials: [
+            'templates/**/_*.hbs',
+            'templates/_*.hbs',
+
+        ],        
     },
     voornaam: 'Dylan'
 };

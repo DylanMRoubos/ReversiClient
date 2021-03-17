@@ -19,5 +19,4 @@ const html = function () {
             .pipe(dest('./dist/html'))
     }
 }
-
 exports.html = html;

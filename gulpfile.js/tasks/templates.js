@@ -2,13 +2,13 @@ const { src, dest } = require('gulp'),
     handlebars = require('gulp-handlebars'),
     wrap = require('gulp-wrap'),
     declare = require('gulp-declare'),
-    concat = require("gulp-concat");
+    concat = require('gulp-concat'),
+    merge = require('merge-stream'),
+    path = require('path');
 
-//tip: vergeet niet dat de extensie .hbs is, dus de glob van 
-//templateFiles kan er zo uitzien: templates/**/*.hbs 
-const templates = function (templateFiles) {
+const templates = function (templateFiles, partialFiles) {
     return function () {
-        return src(templateFiles)
+        const templates = src(templateFiles)
             // Compile each Handlebars template source file to a template function
             .pipe(handlebars())
             // Wrap each template function in a call to Handlebars.template
@@ -26,8 +26,21 @@ const templates = function (templateFiles) {
             }))
             .pipe(concat('templates.js'))
             .pipe(dest('dist/js/'))
+        const partials = src(partialFiles)
+            .pipe(handlebars())
+            .pipe(wrap('Handlebars.registerPartial(<%= processPartialName(file.relative) %>, Handlebars.template(<%= contents %>));', {}, {
+                imports: {
+                    processPartialName: function (fileName) {
+                        // Strip the extension and the underscore
+                        // Escape the output with JSON.stringify
+                        return JSON.stringify(path.basename(fileName, '.js').substr(1));
+                    }
+                }
+            }));
+
+        return merge(partials, templates)
+            .pipe(concat('templates.js'))
+            .pipe(dest('dist/js/'));
     }
 }
 exports.templates = templates;
-
-//meer weten over 'declare': https://github.com/lazd/gulp-handlebars/tree/8e97f01db9edac7068a6402b45f47203841ca705/examples/namespaceByDirectory

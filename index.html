@@ -6,7 +6,6 @@
     <title>Reversi</title>
 
     <!-- CSS -->
-    <link rel="stylesheet" href="./src/css/style.css">
     <link rel="stylesheet" href="./dist/css/style.min.css">
 
     <!-- Latest compiled and minified CSS -->
@@ -19,13 +18,8 @@
 
     <!-- link afkomstig van https://cdnjs.com/libraries/jquery/ -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.js"></script>
-    <script src="js/feedbackWidget.js"></script>
-    <script src="js/Game.js"></script>
-    <script src="js/Game.Reversi.js"></script>
-    <script src="js/Game.Model.js"></script>
-    <script src="js/Game.Data.js"></script>
-    <script src="js/Game.Api.js"></script>
-    <script src="./dist/js/templates.js"></script>
+    
+    <script src="./dist/js/app-raw.js"></script>
     <script src="./dist/js/vendor.js"></script>
     <script src="./dist/js/templates.js"></script>
 
@@ -58,6 +52,7 @@
     <div id="board">
     </div>
 
+    <div id="test"> </div>
     <script>
         function toggleFeedback(elementId) {
             var x = document.getElementById(elementId);

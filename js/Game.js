@@ -6,8 +6,7 @@ const Game = (function (url) {
         // Game.Model.getGameState()
     }
 
-    // Private function init
-    const privateInit = function (afterInit) {        
+    const init = function (afterInit) {        
         setInterval(
             // _getCurrentGameState(),
             2000
@@ -16,6 +15,6 @@ const Game = (function (url) {
     };
     // Waarde/object geretourneerd aan de outer scope
     return {
-        init: privateInit,
+        init: init,
     };
 })('https://meme-api.herokuapp.com/gimme');

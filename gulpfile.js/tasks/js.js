@@ -4,7 +4,7 @@ const order = require("gulp-order");
 const babel = require("gulp-babel");
 const uglify = require('gulp-uglify');
 
-const fn = function (filesJs, filesJsOrder, serverPath) {
+const js = function (filesJs, filesJsOrder, serverPath) {
     return function () {
         return src(filesJs)
         .pipe(order(filesJsOrder, { base: './' }))
@@ -21,4 +21,4 @@ const fn = function (filesJs, filesJsOrder, serverPath) {
     }
 };
 
-exports.js = fn;
+exports.js = js;
