@@ -11,29 +11,13 @@ Handlebars.registerPartial("cell", Handlebars.template({"compiler":[8,">= 4.3.0"
     + "\"></div>\n\n\n";
 },"useData":true}));
 Handlebars.registerPartial("fiche", Handlebars.template({"compiler":[8,">= 4.3.0"],"main":function(container,depth0,helpers,partials,data) {
-    var alias1=container.lambda, alias2=container.escapeExpression;
-
-  return "<script>\n    console.log("
-    + alias2(alias1(depth0, depth0))
-    + ");\n</script>\n\n<div class=\"disc disc-"
-    + alias2(alias1(depth0, depth0))
+    return "<div class=\"disc disc-"
+    + container.escapeExpression(container.lambda(depth0, depth0))
     + "\"></div>";
 },"useData":true}));
 this["spa_templates"] = this["spa_templates"] || {};
 this["spa_templates"]["templates"] = this["spa_templates"]["templates"] || {};
-this["spa_templates"]["templates"]["body"] = Handlebars.template({"compiler":[8,">= 4.3.0"],"main":function(container,depth0,helpers,partials,data) {
-    var helper, lookupProperty = container.lookupProperty || function(parent, propertyName) {
-        if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
-          return parent[propertyName];
-        }
-        return undefined
-    };
-
-  return "<section class=\"body\">\n "
-    + container.escapeExpression(((helper = (helper = lookupProperty(helpers,"bericht") || (depth0 != null ? lookupProperty(depth0,"bericht") : depth0)) != null ? helper : container.hooks.helperMissing),(typeof helper === "function" ? helper.call(depth0 != null ? depth0 : (container.nullContext || {}),{"name":"bericht","hash":{},"data":data,"loc":{"start":{"line":2,"column":1},"end":{"line":2,"column":12}}}) : helper)))
-    + "\n </section>";
-},"useData":true});
-this["spa_templates"]["templates"]["bord"] = Handlebars.template({"1":function(container,depth0,helpers,partials,data) {
+this["spa_templates"]["templates"]["board"] = Handlebars.template({"1":function(container,depth0,helpers,partials,data) {
     var stack1, lookupProperty = container.lookupProperty || function(parent, propertyName) {
         if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
           return parent[propertyName];
@@ -65,6 +49,18 @@ this["spa_templates"]["templates"]["bord"] = Handlebars.template({"1":function(c
     + ((stack1 = lookupProperty(helpers,"each").call(depth0 != null ? depth0 : (container.nullContext || {}),(depth0 != null ? lookupProperty(depth0,"board") : depth0),{"name":"each","hash":{},"fn":container.program(1, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":2,"column":4},"end":{"line":6,"column":13}}})) != null ? stack1 : "")
     + "</div>";
 },"usePartial":true,"useData":true});
+this["spa_templates"]["templates"]["body"] = Handlebars.template({"compiler":[8,">= 4.3.0"],"main":function(container,depth0,helpers,partials,data) {
+    var helper, lookupProperty = container.lookupProperty || function(parent, propertyName) {
+        if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
+          return parent[propertyName];
+        }
+        return undefined
+    };
+
+  return "<section class=\"body\">\n "
+    + container.escapeExpression(((helper = (helper = lookupProperty(helpers,"bericht") || (depth0 != null ? lookupProperty(depth0,"bericht") : depth0)) != null ? helper : container.hooks.helperMissing),(typeof helper === "function" ? helper.call(depth0 != null ? depth0 : (container.nullContext || {}),{"name":"bericht","hash":{},"data":data,"loc":{"start":{"line":2,"column":1},"end":{"line":2,"column":12}}}) : helper)))
+    + "\n </section>";
+},"useData":true});
 this["spa_templates"]["templates"]["meme"] = Handlebars.template({"compiler":[8,">= 4.3.0"],"main":function(container,depth0,helpers,partials,data) {
     var helper, lookupProperty = container.lookupProperty || function(parent, propertyName) {
         if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {

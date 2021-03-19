@@ -1,13 +1,11 @@
-Game.Api = (function () {
+Game.Api = (() => {
 
     console.log("joejoe vanuit api");
-
-
 
     const showMeme = () => {
         Game.Data.apicall("https://meme-api.herokuapp.com/gimme")
         .then(function (data) {
-            $("#test").append(
+            $("#test").html(
                 Game.Template.parseTemplate("meme", {src: data["url"]})
             )
         })
@@ -15,6 +13,5 @@ Game.Api = (function () {
 
     return {
         showMeme: showMeme,
-        
     }
 })();
