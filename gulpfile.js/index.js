@@ -6,8 +6,8 @@ const config = require('./config'),
 const js = require('./tasks/js').js(config.files.js["1"], config.files.js, config.localServerProjectPath);
 const sass = require('./tasks/sass').sass(config.localServerProjectPath, config.files.sass);
 const html = require('./tasks/html').html(config.files.html);
-const vendor = require('./tasks/vendor').vendor(config.files.vendor);
-const templates = require('./tasks/templates').templates(config.files.templates, config.files.partials);
+const vendor = require('./tasks/vendor').vendor(config.files.vendor, config.localServerProjectPath);
+const templates = require('./tasks/templates').templates(config.files.templates, config.files.partials, config.localServerProjectPath);
 
 const watchFiles = () => {
     watch(['src/**/*.scss'], gulp.series(sass));

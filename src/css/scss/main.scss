@@ -2,7 +2,7 @@
     flex-wrap: wrap;
     display: flex;
     width: 100%;
-    height: 80vh;
+    height: 60vh;
 
     .cell {
         // flex: 1;
@@ -18,8 +18,7 @@
             width: 100%;
             height: 100%;
             opacity: 1;
-            border-radius: 50%;
-            animation: fade 0.5s linear, spin 1s;
+            border-radius: 50%;            
         }
 
         .disc-1 {
@@ -46,7 +45,7 @@
                 #fff;
             background-size: 109px 109px, 109px 109px, 100% 6px, 109px 109px, 109px 109px;
             background-position: 54px 55px, 0px 0px, 0px 0px, 0px 0px, 0px 0px; // background-color: #131313;
-            background-size: 20px 20px;
+            background-size: 20px 20px;            
         }
         .disc-2 {
             background: radial-gradient(rgb(190, 10, 10) 3px, transparent 4px),
@@ -74,6 +73,61 @@
             background-position: 54px 55px, 0px 0px, 0px 0px, 0px 0px, 0px 0px; // background-color: #131313;
             background-size: 20px 20px;
         }
+        .disc-3 {
+            background: radial-gradient(rgb(190, 10, 10) 3px, transparent 4px),
+            radial-gradient(black 3px, transparent 4px), linear-gradient(#fff 4px, transparent 0),
+            linear-gradient(
+                45deg,
+                transparent 74px,
+                transparent 75px,
+                #a4a4a4 75px,
+                #a4a4a4 76px,
+                transparent 77px,
+                transparent 109px
+            ),
+            linear-gradient(
+                -45deg,
+                transparent 75px,
+                transparent 76px,
+                #a4a4a4 76px,
+                #a4a4a4 77px,
+                transparent 78px,
+                transparent 109px
+            ),
+            #fff;
+        background-size: 109px 109px, 109px 109px, 100% 6px, 109px 109px, 109px 109px;
+        background-position: 54px 55px, 0px 0px, 0px 0px, 0px 0px, 0px 0px; // background-color: #131313;
+        background-size: 20px 20px;
+        animation: fade 0.5s linear, spin 1s;
+        }
+        .disc-4 {
+            background: radial-gradient(rgb(190, 10, 10) 3px, transparent 4px),
+                radial-gradient(white 3px, transparent 4px), linear-gradient(#000 4px, transparent 0),
+                linear-gradient(
+                    45deg,
+                    transparent 74px,
+                    transparent 75px,
+                    #201d1d 75px,
+                    #292626 76px,
+                    transparent 77px,
+                    transparent 109px
+                ),
+                linear-gradient(
+                    -45deg,
+                    transparent 75px,
+                    transparent 76px,
+                    #a4a4a4 76px,
+                    #a4a4a4 77px,
+                    transparent 78px,
+                    transparent 109px
+                ),
+                #000;
+            background-size: 109px 109px, 109px 109px, 100% 6px, 109px 109px, 109px 109px;
+            background-position: 54px 55px, 0px 0px, 0px 0px, 0px 0px, 0px 0px; // background-color: #131313;
+            background-size: 20px 20px;
+            animation: fade 0.5s linear, spin 1s;
+        }
+
         .disc-0 {
             display: none;
         }
@@ -95,11 +149,14 @@
         transform: rotate(360deg);
     }
 }
-
-#boardarea {
-    width: 80%;
-    margin-left: 10%;
-}
-.crow {
+.row {
     width: 100%;
 }
+.meme {
+    width: 100%;
+} 
+#feedback-widget {
+    position: absolute;
+    width: 40%;
+    top: 0;
+  }

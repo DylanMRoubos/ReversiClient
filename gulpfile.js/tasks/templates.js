@@ -6,7 +6,7 @@ const { src, dest } = require('gulp'),
     merge = require('merge-stream'),
     path = require('path');
 
-const templates = function (templateFiles, partialFiles) {
+const templates = function (templateFiles, partialFiles, serverProjectPath) {
     return function () {
         const templates = src(templateFiles)
             // Compile each Handlebars template source file to a template function
@@ -40,7 +40,8 @@ const templates = function (templateFiles, partialFiles) {
 
         return merge(partials, templates)
             .pipe(concat('templates.js'))
-            .pipe(dest('dist/js/'));
+            .pipe(dest('dist/js/'))
+            .pipe(dest(serverProjectPath + '/js'));
     }
 }
 exports.templates = templates;

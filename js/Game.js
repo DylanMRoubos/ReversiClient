@@ -1,21 +1,23 @@
-const Game = (function (token) {
+const Game = (function () {
 
-    let _token = token;
+    let _token;
+    let _playerToken;
 
     const _getCurrentGameState = function () {
         // Game.Model.getGameState()
         console.log("refresh");
-        Game.Model.updateGame(_token);
+        Game.Model.updateGame(_token, _playerToken);
     }
 
-    const init = function () {
+    const init = function (token, playerToken) {
+        _token = token;
+        _playerToken = playerToken;
+        Game.Model.updateGame(_token, _playerToken);
         window.setInterval(function(){      
             _getCurrentGameState()            
         }, 2000);
-        afterInit();
     };
-    // Waarde/object geretourneerd aan de outer scope
     return {
         init: init,
     };
-})('d2dd4b51-c863-4dd7-9daa-060ebc38a569');
+})();

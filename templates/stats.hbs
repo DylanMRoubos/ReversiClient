@@ -1,0 +1,61 @@
+<canvas id="PlayerPointsChart" ></canvas>
+<script>
+    var ctx = document.getElementById('PlayerPointsChart').getContext('2d');
+    var player1PieceHistory = [{{ player1 }}];
+    var player2PieceHistory = [{{ player2 }}];
+
+    debugger;
+    var turns = [];
+
+    for (let i = 0; i < player1PieceHistory.length; i++) {
+        turns.push("Turn " + (i + 1));
+    }
+
+    var data = {
+        labels: turns,
+        datasets: [{
+            label: "White",
+            lineTension: 0.1,
+            borderColor: "red",
+            borderDash: [],
+            pointBorderColor: "black",
+            pointBackgroundColor: "white",
+            pointRadius: 4,
+            data: player1PieceHistory,
+            animation: "none",
+        }, {
+            label: "Black",
+            background: false,
+            lineTension: 0.1,
+            borderColor: "blue",
+            borderDash: [],
+            pointBorderColor: "black",
+            pointBackgroundColor: "white",
+            pointRadius: 4,
+            data: player2PieceHistory,
+            animation: "none",
+        }
+
+        ]
+    };
+    var options = {
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero: true
+                },
+                scaleLabel: {
+                    display: true,
+                    labelString: 'Piece history',
+                    fontSize: 16
+                }
+            }]
+        }
+    };
+
+    new Chart(ctx, {
+        type: 'line',
+        data: data,
+        options: options
+    });
+</script>
