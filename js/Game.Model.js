@@ -1,33 +1,45 @@
+//TODO: remove the function that do not need to be in this module ()
 Game.Model = (function () {
 
-    var game;
-    var currentPlayer;
-    var _playerToken;
+    var game = "";
+    var gameToken = "";
+    var currentPlayer = "";
+    var playerToken = "";
 
     const getGame = () => {
         return game;
     }
     const getPlayerToken = () => {
-        return _playerToken;
+        return playerToken;
+    }
+    const setGameToken = (_gameToken) => {
+        gameToken = _gameToken;
+    }
+    const setPlayerToken = (_playerToken) => {
+        playerToken = _playerToken;
     }
 
-    const updateGame = (token, playerToken) => {
-        _getGameData(token).then(function (data) {
+    const updateGame = () => {
+        _getGameData(gameToken).then(function (data) {
             game = data;
-            _playerToken = playerToken;      
+
             Game.Data.printboard(game.board);
             Game.Data.printDetails(game);
-            Game.Stats.updateAmounts();            
+            Game.Stats.updateStats();
+
             _checkTurn(game);
         }).catch(function (error) {
-            console.log("Error in getting the data")
+            console.log("Error in getting the game data from API");
         })
     }
 
-    const _checkTurn = (game) => {
+    var _checkTurn = (game) => {
+        if (game.token == null) {
+            window.location.replace("https://localhost:5002");
+        }
         if (game.finished == true) {
-            FeedbackWidget.show("The game has ended and " + game.winner + " has won", true)
-            $("#board").css("opacity","0.5");
+            $("#board").css("opacity", "0.5");
+            FeedbackWidget.show("The game has ended and " + game.winner + " has won", Game.Delete.acceptDeleteGame, 1)
             return;
         }
         if (game.currentPlayer == 1) {
@@ -35,8 +47,8 @@ Game.Model = (function () {
         } else {
             currentPlayer = game.playerToken2;
         }
-        if (currentPlayer != _playerToken) {
-            $("#board").css("opacity","0.5");
+        if (currentPlayer != playerToken) {
+            $("#board").css("opacity", "0.5");
         }
     }
 
@@ -45,18 +57,19 @@ Game.Model = (function () {
             Game.Data.apicall("https://localhost:5001/api/spel/" + token).then(function (data) {
                 if (data != null) {
                     resolve(data);
+                    Game.Data.apicall("https://localhost:5001/api/spel/finished/" + token);
                 }
-                reject();
             }).catch(function (error) {
-                console.log("Error in getting the data")
+                console.log("Error in getting the data 2")
             })
         })
     }
-
     // Waarde/object geretourneerd aan de outer scope
     return {
         getGame: getGame,
         getPlayerToken: getPlayerToken,
+        setGameToken: setGameToken,
+        setPlayerToken: setPlayerToken,
         updateGame: updateGame,
     };
 

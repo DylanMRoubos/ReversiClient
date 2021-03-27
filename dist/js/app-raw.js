@@ -1,39 +1,71 @@
+/**
+* Module pattern base class to start the Game with gameToken & playertoken
+* Sets an update function "refresh boarrd every x miliseconds"
+* @author Dylan Roubos
+*/
 const Game = (function () {
 
-    let _token;
-    let _playerToken;
+    // Var for determeting the refresh rate in miliseconds
+    var test = "joejoe";
 
-    const _getCurrentGameState = function () {
-        // Game.Model.getGameState()
-        console.log("refresh");
-        Game.Model.updateGame(_token, _playerToken);
+    const getTest = () => {
+        return test;
     }
 
+    //Method that will be called every x miliseconds to refresh the game
+    const _getCurrentGameState = function () {
+        Game.Model.updateGame();
+    }
+
+    //Method to init the game by setting default settings in the model + adding te method interval
     const init = function (token, playerToken) {
-        _token = token;
-        _playerToken = playerToken;
-        Game.Model.updateGame(_token, _playerToken);
+        // gameRefreshRate = refreshRate;
+        Game.Model.setGameToken(token);
+        Game.Model.setPlayerToken(playerToken);
+
         window.setInterval(function(){      
             _getCurrentGameState()            
         }, 2000);
     };
     return {
         init: init,
+        getTest, getTest,
     };
 })();
+//Function for showing a feedbackwidget, including multiple 
+//options to customise onclick event and which buttons are shown
+//@author Dylan Roubos
+//
 const FeedbackWidget = (() => {
-
-    const show = (message, withoutButtons) => {
+    //Buttons enabled:
+    // 0 = close only
+    // 1 = close & accept
+    // 2 = close & accept & deny
+    const show = (message, onclick, buttonsEnabled) => {
         $(".alert-text").text(message)
         $("#feedback-widget").removeClass("fade-out")
-        $("#feedback-widget").addClass("fade-in")
-        
-        if(withoutButtons) {
-            $(".FeedbackButton").css("display", "none");
-        } else {
-            $(".FeedbackButton").css("display", "inline");
+        $("#feedback-widget").addClass("fade-in")            
+
+        //Add the onclick to both the close & accept button
+        $("#feedback-icon").on("click", _buttonHandling.bind(null, onclick));
+        $(".FeedbackButton1").on("click", _buttonHandling.bind(null, onclick));
+
+        //Check which buttons should be enabled
+        if(buttonsEnabled == 0) {        
+            $(".FeedbackButton").css("display", "none");                     
+        } else if(buttonsEnabled == 1) {
+            $(".FeedbackButton1").css("display", "inline");     
+            $(".FeedbackButton2").css("display", "none");       
+        } else if(buttonsEnabled == 2) {
+            $(".FeedbackButton").css("display", "inline");   
         }
     } 
+
+    //Method to be able to add multiple function to the onclick of an element
+    const _buttonHandling = (customFunction) => {
+        customFunction();
+        hide();
+    }
 
     const hide = () => {  
         $("#feedback-widget").removeClass("fade-in")
@@ -60,6 +92,7 @@ Game.Api = (() => {
         showMeme: showMeme,
     }
 })();
+//TODO: remove the function that do not need to be in this module ()
 Game.Data = (function () {
 
     let apicall = (_url) => {
@@ -72,7 +105,7 @@ Game.Data = (function () {
                     resolve(data);
                 },
                 error: function (data) {
-                    reject(data);
+                    reject("ERROR");
                 },
             })
         })
@@ -119,10 +152,8 @@ Game.Data = (function () {
         }
 
         apicallPut("https://localhost:5001/api/Spel/Zet", data).then((data) => {
-            Game.Api.showMeme();
+            Game.Meme.showMeme();
         });
-
-        console.log(apicallPut)
     }
 
     let skip = () => {
@@ -155,6 +186,14 @@ Game.Data = (function () {
         }
     }    
 
+    let surrender = () => {
+        let data  = {
+            gameToken: Game.Model.getGame().token,
+            playerToken: Game.Model.getPlayerToken(),
+        }
+        apicallPut("https://localhost:5001/api/Spel/Opgeven", data)
+    }
+
 
     return {
         printboard: printboard,
@@ -162,39 +201,93 @@ Game.Data = (function () {
         showFiche: placeDisc,
         apicall: apicall,
         skip: skip,
-        // surrender: surrender,
+        apicallPut, apicallPut,
+        surrender: surrender,
     };
 })();
+/**
+* Game module to handle everything Delete related
+* @author Dylan Roubos
+*/
+Game.Delete = (() => {
+
+    //Method to send a put request to the api with gametoken & playertoken to accept te end of the game from the user his side
+    const acceptDeleteGame = () => {
+        //Get the user its data from the model according to the expected API format
+        var data = {
+            playerToken: Game.Model.getPlayerToken(),
+            gameToken: Game.Model.getGame().token,
+        }
+        //Send the data the api
+        Game.Data.apicallPut("https://localhost:5001/api/spel/finish", data);
+    }
+
+    return {
+        acceptDeleteGame, acceptDeleteGame,
+    }
+})();
+/**
+* Game module to show the meme
+* @author Dylan Roubos
+*/
+Game.Meme = (() => {
+
+    //Get the game data & show it on the page using the handlebars
+    const showMeme = () => {
+        Game.Data.apicall("https://meme-api.herokuapp.com/gimme")
+        .then(function (data) {
+            $("#meme").html(
+                Game.Template.parseTemplate("meme", {src: data["url"]})
+            )
+        })
+    }
+
+    return {
+        showMeme, showMeme
+    }
+})();
+//TODO: remove the function that do not need to be in this module ()
 Game.Model = (function () {
 
-    var game;
-    var currentPlayer;
-    var _playerToken;
+    var game = "";
+    var gameToken = "";
+    var currentPlayer = "";
+    var playerToken = "";
 
     const getGame = () => {
         return game;
     }
     const getPlayerToken = () => {
-        return _playerToken;
+        return playerToken;
+    }
+    const setGameToken = (_gameToken) => {
+        gameToken = _gameToken;
+    }
+    const setPlayerToken = (_playerToken) => {
+        playerToken = _playerToken;
     }
 
-    const updateGame = (token, playerToken) => {
-        _getGameData(token).then(function (data) {
+    const updateGame = () => {
+        _getGameData(gameToken).then(function (data) {
             game = data;
-            _playerToken = playerToken;      
+
             Game.Data.printboard(game.board);
             Game.Data.printDetails(game);
-            Game.Stats.updateAmounts();            
+            Game.Stats.updateStats();
+
             _checkTurn(game);
         }).catch(function (error) {
-            Game.Data.printboard(game.board);
+            console.log("Error in getting the game data from API");
         })
     }
 
-    const _checkTurn = (game) => {
+    var _checkTurn = (game) => {
+        if (game.token == null) {
+            window.location.replace("https://localhost:5002");
+        }
         if (game.finished == true) {
-            FeedbackWidget.show("The game has ended and " + game.winner + " has won", true)
-            $("#board").css("opacity","0.5");
+            $("#board").css("opacity", "0.5");
+            FeedbackWidget.show("The game has ended and " + game.winner + " has won", Game.Delete.acceptDeleteGame, 1)
             return;
         }
         if (game.currentPlayer == 1) {
@@ -202,8 +295,8 @@ Game.Model = (function () {
         } else {
             currentPlayer = game.playerToken2;
         }
-        if (currentPlayer != _playerToken) {
-            $("#board").css("opacity","0.5");
+        if (currentPlayer != playerToken) {
+            $("#board").css("opacity", "0.5");
         }
     }
 
@@ -212,58 +305,84 @@ Game.Model = (function () {
             Game.Data.apicall("https://localhost:5001/api/spel/" + token).then(function (data) {
                 if (data != null) {
                     resolve(data);
+                    Game.Data.apicall("https://localhost:5001/api/spel/finished/" + token);
                 }
-                reject();
+            }).catch(function (error) {
+                console.log("Error in getting the data 2")
             })
         })
     }
-
     // Waarde/object geretourneerd aan de outer scope
     return {
         getGame: getGame,
         getPlayerToken: getPlayerToken,
+        setGameToken: setGameToken,
+        setPlayerToken: setPlayerToken,
         updateGame: updateGame,
     };
 
 })();
+/**
+* Game module to handle the statistics graphics
+* @author Dylan Roubos
+*/
 Game.Stats = (() => {
-
-    const updateAmounts = () => {
-        var token = Game.Model.getGame().token;
-        console.log(token);
-        Game.Data.apicall('https://localhost:5001/api/spel/Amount/' + token ).then(function (data) {
-
-        var jsonData= JSON.parse(data);
-            playerPieceHistory = {
-                player1: [],
-                player2: []
-            };
-            for(let key in jsonData[0]) {
-                playerPieceHistory.player1.push(jsonData[0][key].Amount);               
-            }
-            for(let key in jsonData[1]) {
-                playerPieceHistory.player2.push(jsonData[1][key].Amount);               
-            }
-
-            $("#Chart").html(Game.Template.parseTemplate("stats", playerPieceHistory))
-        })
+    //Method to update to get the data
+    const updateStats = () => {
+        _updateAmounts().then((data) => {
+            _placeGraphic(data);
+        });
     }
+    //Method that returns a Promise with the data fetched from the api and parsed into usable data for the handeblar tempalt
+    const _updateAmounts = () => {
+        return new Promise(function (resolve, reject) {
+            //Get the player statistics data from the API
+            var token = Game.Model.getGame().token;
+            Game.Data.apicall('https://localhost:5001/api/spel/Amount/' + token).then(function (data) {
 
-    const init = () => {
+                var jsonData = JSON.parse(data);
+
+                //Create a js array template based on the expected format from the handlebar template
+                playerPieceHistory = {
+                    player1: [],
+                    player2: []
+                };
+
+                //Add the data for the first player to the array template
+                for (let key in jsonData[0]) {
+                    playerPieceHistory.player1.push(jsonData[0][key].Amount);
+                }
+                //Add the data for the second player array template
+                for (let key in jsonData[1]) {
+                    playerPieceHistory.player2.push(jsonData[1][key].Amount);
+                }
+                resolve(playerPieceHistory);
+            })
+        })
+
+    }
+    //Method to place the statistics onto the screen witht the handlebar template
+    const _placeGraphic = (playerPieceHistory) => {
+        $("#Chart").html(Game.Template.parseTemplate("stats", playerPieceHistory))
     }
 
     return {
-        init: init,
-        updateAmounts: updateAmounts,
+        updateStats: updateStats,
     }
 
 })();
+/**
+* Game module to handle the template steps for handlebars
+* @author Dylan Roubos
+*/
 Game.Template = (function () {
 
+    //Method to call the template withouth initialising it
     const getTemplate = (getTemplate) => {
         return spa_templates.templates[getTemplate];
     }
 
+    //Method to the called template with the given data
     const parseTemplate = (templateName, data) => {
         return getTemplate(templateName)(data);
     }
