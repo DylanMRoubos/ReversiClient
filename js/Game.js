@@ -5,13 +5,6 @@
 */
 const Game = (function () {
 
-    // Var for determeting the refresh rate in miliseconds
-    var test = "joejoe";
-
-    const getTest = () => {
-        return test;
-    }
-
     //Method that will be called every x miliseconds to refresh the game
     const _getCurrentGameState = function () {
         Game.Model.updateGame();
@@ -29,6 +22,5 @@ const Game = (function () {
     };
     return {
         init: init,
-        getTest, getTest,
     };
 })();

@@ -20,13 +20,7 @@
 
 <body>
 
-  <div id="feedback-success" class="alert alert-success" role="alert">
-    <p>Veel succes met deze module!</p>
-  </div>
-
-  <div id="feedback-danger" class="alert alert-danger" role="alert" style="display:none">
-    <p>Pas op voor loslopende bits.</p>
-  </div>
+  <div id="boardarea"></div>
 
   <script>
 
@@ -34,7 +28,7 @@
       success: {
         status: 200,
         contentType: 'text/plain',
-        responseText: '{"time":"12:00:00"}'
+        responseText: '{"board": "[[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,1,2,0,0,0],[0,0,0,2,1,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0]]"}'
       },
       fail: {
         status: 404,
@@ -45,6 +39,7 @@
 
     beforeAll(function (done) {
       $(function () {
+        Game.init("81c59202-f579-4a44-af11-7db7abe89225", "30129606-af60-4770-bc7e-0da4b9f6b460");
         done();
       });
     });
@@ -61,20 +56,71 @@
       });
     });
 
-    it("publicpromise1 prints answer to body", function (done) {
+    describe("Model data get sets", function () {
 
-      Game.Data.apicall('https://localhost:5001/api/spel/b5106fc6-0ae4-46d3-b472-2ead608d7370')
-        .then(function (data) {
-          expect(data).toBe("");
-          done();
-        })
-        .catch(function (data) {
-          expect(date).toBe("");
-          done();
-        })
+      it("Gametoken gets set", function () {
+        Game.Model.setGameToken("81c59202-f579-4a44-af11-7db7abe89225");
+        expect(Game.Model.getGameToken()).toBe("81c59202-f579-4a44-af11-7db7abe89225");
+      });
+
+      it("Playertoken gets set", function () {
+        Game.Model.setPlayerToken("30129606-af60-4770-bc7e-0da4b9f6b460");
+        expect(Game.Model.getPlayerToken()).toBe("30129606-af60-4770-bc7e-0da4b9f6b460");
+      });
+    });
+
+    describe("API TEST", function () {
+      beforeEach(function () {
+
+        jasmine.Ajax.install();
+      })
+
+      afterEach(function () {
+
+        jasmine.Ajax.uninstall();
+      })
+      it("api call succes", function (done) {
+
+        jasmine.Ajax.stubRequest("https://localhost:5001/api/spel/b5106fc6-0ae4-46d3-b472-2ead608d7370").andReturn(testresponse.success);
+
+        Game.Data.apicall('https://localhost:5001/api/spel/b5106fc6-0ae4-46d3-b472-2ead608d7370')
+          .then(function (data) {
+            expect(data).toBe('{"board": "[[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,1,2,0,0,0],[0,0,0,2,1,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0]]"}');
+            done();
+          })
+          .catch(function (data) {
+            expect(data).toBe("ERROR");
+            done();
+          })
+
+      })
+
+      it("api call failure", function (done) {
+        jasmine.Ajax.stubRequest("https://localhost:5001/api/spel/b5106fc6-0ae4-46d3-b472-2ead608d7370").andReturn(testresponse.fail);
+
+        Game.Data.apicall('https://localhost:5001/api/spel/b5106fc6-0ae4-46d3-b472-2ead608d7370')
+          .then(function (data) {
+            expect(data.responseText).toBe({ "board": "[[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,1,2,0,0,0],[0,0,0,2,1,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0]]" });
+            done();
+          })
+          .catch(function (data) {
+            expect(data).toBe("ERROR");
+            done();
+          })
+
+      })
 
     })
+    describe("Board test", function () {
+      it("Board Area exists", function () {
+        expect($("#bordarea")).toBeDefined();
+      });
 
+      it("Board Gets initialised", function () {
+        Game.Data.printboard("[[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,1,2,0,0,0],[0,0,0,2,1,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0]]");
+        expect($("#board").length).toBeGreaterThan(0);
+      });
+    })
 
   </script>
 

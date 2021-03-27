@@ -5,13 +5,6 @@
 */
 const Game = (function () {
 
-    // Var for determeting the refresh rate in miliseconds
-    var test = "joejoe";
-
-    const getTest = () => {
-        return test;
-    }
-
     //Method that will be called every x miliseconds to refresh the game
     const _getCurrentGameState = function () {
         Game.Model.updateGame();
@@ -29,7 +22,6 @@ const Game = (function () {
     };
     return {
         init: init,
-        getTest, getTest,
     };
 })();
 //Function for showing a feedbackwidget, including multiple 
@@ -260,6 +252,9 @@ Game.Model = (function () {
     const getPlayerToken = () => {
         return playerToken;
     }
+    const getGameToken = () => {
+        return gameToken;
+    }
     const setGameToken = (_gameToken) => {
         gameToken = _gameToken;
     }
@@ -317,6 +312,7 @@ Game.Model = (function () {
         getGame: getGame,
         getPlayerToken: getPlayerToken,
         setGameToken: setGameToken,
+        getGameToken: getGameToken,
         setPlayerToken: setPlayerToken,
         updateGame: updateGame,
     };

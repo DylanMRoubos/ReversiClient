@@ -12,6 +12,9 @@ Game.Model = (function () {
     const getPlayerToken = () => {
         return playerToken;
     }
+    const getGameToken = () => {
+        return gameToken;
+    }
     const setGameToken = (_gameToken) => {
         gameToken = _gameToken;
     }
@@ -69,6 +72,7 @@ Game.Model = (function () {
         getGame: getGame,
         getPlayerToken: getPlayerToken,
         setGameToken: setGameToken,
+        getGameToken: getGameToken,
         setPlayerToken: setPlayerToken,
         updateGame: updateGame,
     };

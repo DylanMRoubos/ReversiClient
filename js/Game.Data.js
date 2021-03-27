@@ -71,6 +71,7 @@ Game.Data = (function () {
     }
     
     let printboard = (board) => {
+        console.log(board)
         let data = {
             board: JSON.parse(board)
         }
